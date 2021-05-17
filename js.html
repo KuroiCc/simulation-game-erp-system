@@ -1,0 +1,50 @@
+<script>
+    const ALL_DIV_ID = new Array("buy", "sell");
+    
+    function indexLoad(){
+      showDiv("buy");
+    }
+    
+    //引数strで関数funcを呼ぶ
+    function callfunc(func, str){
+      if(str==null){
+        func();
+      }else{
+        func(str);
+      }
+    }
+    
+    //はいを押す場合はfunc1を実行、それ以外はfunc2を実行
+    function comfirm(func1, str1, func2, str2) {
+      console.log('start');
+      var r = confirm('確認してください');
+      if(r==true){
+        callfunc(func1, str1);
+      }else{
+        callfunc(func2, str2);
+      }
+    }
+    
+    function sendmail(a){
+      console.log(a);
+      alert('メールを送信しました');
+    }
+    
+    function cencilmail(a){
+      console.log(a);
+      alert('キャンセルしました');
+    }
+    
+    function showDiv(divId){
+      var hideDiv;
+      
+      for(i in ALL_DIV_ID){
+        hideDiv = document.getElementById(ALL_DIV_ID[i]);
+        //console.log("hide " + ALL_DIV_ID[i]);
+        hideDiv.style.display="none"; 
+      }
+      hideDiv = document.getElementById(divId);
+      hideDiv.style.display="block";
+      console.log("show " + divId);
+    }
+  </script>

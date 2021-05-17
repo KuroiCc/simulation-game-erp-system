@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8"/>
+    <base target="_top">
+    <style>
+      table{
+        border: solid 1px #000000;
+        border-collapse: collapse;
+      }
+      th {
+        border: solid 1px #000000;
+        padding: 4px;
+      }
+      td {
+        border: solid 1px #000000;
+        padding: 4px;
+      }
+      .comfrimDiv{
+        float:left;
+        padding: 4px;
+      }
+        .a{
+            width: 200px;
+            height: 200px;
+            background: red;
+            border:2px solid black;
+        }
+    </style>
+</head>
+
+<body onload="indexLoad()">
+    <?!= HtmlService.createHtmlOutputFromFile('js').getContent(); ?>
+    <h3>Enrich社内システム</h3>
+    <!--
+    
+      var test = t();
+      output._ = test + "<br>";
+      
+      var teamDrives = getByName();
+      output._ = teamDrives[0].name + "<br>";
+      output._ = teamDrives[0].id + "<br>";
+      
+      var fn = getAllFileList();
+      output._ = fn + "<br>";
+      
+      output._ = DB.getName() + "<br>";
+    
+    
+    <input type="submit" value="click me" onclick="comfirm(sendmail, 'sendmail', cencilmail, 'cencilmail')">
+    
+    
+    <hr>
+    -->
+    <input type="submit" value="発注" onclick="showDiv('buy')">
+    <input type="submit" value="入札" onclick="showDiv('sell')">
+    
+    
+    <hr>
+    <div id="buy">
+      <h3>発注内容登録</h3>
+      <form method="post" action="https://script.google.com/a/gsuite.si.aoyama.ac.jp/macros/s/AKfycbxggaJ12BCvHDXONthTl-Qq94bEs5QzLaKtpn6RJLdM/dev">
+        
+        <input type="hidden" name="nowAction" value="buy">
+        <label>発注日：<input type="text" name="date"></label>
+        <label>品目：
+          <select name="itme">
+            <option value="消しゴム">消しゴム</option>
+            <option value="ぺん">ぺん</option>
+            <option value="手帳">手帳</option>
+          </select>
+        </label>
+        <label>納期：<input type="text" name="nouki"></label>
+        <label>単価：<input type="text" name="price"></label>
+        <label>個数：<input type="text" name="num"></label>
+        <br><br>
+        <input type="submit" value="送信する">
+      </form>
+      <h3>発注書作成</h3>
+      <form method="post" action="https://script.google.com/a/gsuite.si.aoyama.ac.jp/macros/s/AKfycbxggaJ12BCvHDXONthTl-Qq94bEs5QzLaKtpn6RJLdM/dev">
+        
+        <input type="hidden" name="nowAction" value="doBuy">
+        <label>発注日：<input type="text" name="date"></label>
+        <input type="submit" value="発注書を作成する">
+      </form>
+    </div>
+    
+    
+    <div id="sell" class="a">bbbbbb</div>
+    
+    <br><br><br>
+    <hr>
+    <div class="comfrimDiv">
+      消しゴム
+      <table>
+        <?
+          var sheet = DB.getSheetByName("在庫変動予定表　消しゴム");
+          var firstData = getData(sheet, 1, 1, 1, 4);
+          var lastTenDate = getData(sheet, sheet.getLastRow() - 9, 1, 10, 4);
+          
+          // テーブルの見出し作成
+          var midashi = "<tr>";
+          for(var i in firstData[0]){
+            midashi += "<th>" + firstData[0][i] + "</th>"
+          }
+          midashi += "</tr>";
+          output._ = midashi;
+          
+          // テーブルを作成
+          content = "<tr>";
+          for (var row in lastTenDate) {
+            content += "<tr>"
+            for (var col in lastTenDate[row]) {
+              content += "<td>" + lastTenDate[row][col] + "</td>";
+            }
+            content += "</tr>"
+          }
+          content += "</tr>";
+          output._ = content;
+        ?>
+      </table>
+    </div>
+    
+    <div class="comfrimDiv">
+      ぺん
+      <table>
+        <?
+          var sheet = DB.getSheetByName("在庫変動予定表　ぺん");
+          var firstData = getData(sheet, 1, 1, 1, 4);
+          var lastTenDate = getData(sheet, sheet.getLastRow() - 9, 1, 10, 4);
+          
+          // テーブルの見出し作成
+          var midashi = "<tr>";
+          for(var i in firstData[0]){
+            midashi += "<th>" + firstData[0][i] + "</th>"
+          }
+          midashi += "</tr>";
+          output._ = midashi;
+          
+          // テーブルを作成
+          content = "<tr>";
+          for (var row in lastTenDate) {
+            content += "<tr>"
+            for (var col in lastTenDate[row]) {
+              content += "<td>" + lastTenDate[row][col] + "</td>";
+            }
+            content += "</tr>"
+          }
+          content += "</tr>";
+          output._ = content;
+        ?>
+      </table>
+    </div>
+    
+    <div class="comfrimDiv">
+      手帳
+      <table>
+        <?
+          var sheet = DB.getSheetByName("在庫変動予定表　手帳");
+          var firstData = getData(sheet, 1, 1, 1, 4);
+          var LastRow = sheet.getLastRow() - 9;
+          if(LastRow<=1){LastRow=2;}
+          var lastTenDate = getData(sheet, LastRow, 1, 10, 4);
+          
+          // テーブルの見出し作成
+          var midashi = "<tr>";
+          for(var i in firstData[0]){
+            midashi += "<th>" + firstData[0][i] + "</th>"
+          }
+          midashi += "</tr>";
+          output._ = midashi;
+          
+          // テーブルを作成
+          content = "<tr>";
+          for (var row in lastTenDate) {
+            content += "<tr>"
+            for (var col in lastTenDate[row]) {
+              content += "<td>" + lastTenDate[row][col] + "</td>";
+            }
+            content += "</tr>"
+          }
+          content += "</tr>";
+          output._ = content;
+        ?>
+      </table>
+    </div>
+</body>
+
+</html>
